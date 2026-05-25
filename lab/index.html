@@ -1,12 +1,173 @@
-LAB
-Things I built for fun
-Visual experiments, interactive ideas, and building-in-public artifacts. Each one started as a rough idea and became something worth sharing.
-🚐💨
-MAY 2026
-The Great American West
-Turned a messy spreadsheet into an interactive road trip guide with five fictional characters giving advice — an uncle, a foodie, a news reader, a dreamer, and my kid twenty years from now.
-travel
-interactive
-family
-More experiments coming. Stay close.
-@cranberryjin
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lab — cranberryjin</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: linear-gradient(180deg, #0A0618 0%, #12082A 50%, #08061A 100%);
+    font-family: 'Outfit', sans-serif;
+    min-height: 100vh;
+    color: white;
+  }
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 60px 24px 80px;
+  }
+  .lab-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: #FF2D87;
+    font-weight: 700;
+    text-transform: uppercase;
+    opacity: 0.8;
+    margin-bottom: 16px;
+  }
+  h1 {
+    font-size: 36px;
+    font-weight: 900;
+    letter-spacing: -1.5px;
+    line-height: 1.1;
+    margin-bottom: 12px;
+    background: linear-gradient(135deg, #FFF 0%, #FF2D87 40%, #00F0FF 70%, #B8FF00 100%);
+    background-size: 200% 200%;
+    animation: gs 8s ease infinite;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  @keyframes gs {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  .subtitle {
+    font-size: 14px;
+    color: rgba(255,255,255,0.35);
+    font-weight: 300;
+    margin-bottom: 48px;
+    line-height: 1.5;
+  }
+  .card {
+    display: block;
+    text-decoration: none;
+    background: rgba(255,255,255,0.04);
+    border: 1.5px solid rgba(255,255,255,0.07);
+    border-radius: 20px;
+    padding: 24px;
+    margin-bottom: 16px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+  }
+  .card:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 30px color-mix(in srgb, var(--accent) 15%, transparent),
+                0 8px 32px rgba(0,0,0,0.3);
+    transform: translateY(-2px);
+  }
+  .card-emoji { font-size: 32px; margin-bottom: 12px; }
+  .card-date {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+    opacity: 0.8;
+    margin-bottom: 6px;
+  }
+  .card-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 6px;
+    letter-spacing: -0.3px;
+  }
+  .card-desc {
+    font-size: 13px;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.5;
+    font-weight: 400;
+  }
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 12px;
+  }
+  .tag {
+    font-size: 10px;
+    font-family: 'Space Mono', monospace;
+    padding: 3px 10px;
+    border-radius: 8px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .footer {
+    text-align: center;
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+  .footer-text {
+    font-size: 10px;
+    color: rgba(255,255,255,0.15);
+    font-family: 'Space Mono', monospace;
+  }
+  .footer-text a {
+    color: rgba(255,255,255,0.3);
+    text-decoration: none;
+  }
+  .empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: rgba(255,255,255,0.2);
+    font-style: italic;
+    font-size: 13px;
+    border: 1.5px dashed rgba(255,255,255,0.08);
+    border-radius: 20px;
+    margin-top: 16px;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="lab-tag">Lab</div>
+  <h1>Things I built for fun</h1>
+  <div class="subtitle">
+    Visual experiments, interactive ideas, and building-in-public artifacts.
+    Each one started as a rough idea and became something worth sharing.
+  </div>
+
+  <!-- Experiment 1: USA Road Trip -->
+  <a href="./usa-2026/index.html" class="card" style="--accent: #00F0FF;">
+    <div class="card-emoji">🚐💨</div>
+    <div class="card-date">May 2026</div>
+    <div class="card-title">The Great American West</div>
+    <div class="card-desc">
+      Turned a messy spreadsheet into an interactive road trip guide with five fictional characters giving advice — an uncle, a foodie, a news reader, a dreamer, and my kid twenty years from now.
+    </div>
+    <div class="card-tags">
+      <span class="tag" style="background: #00F0FF18; color: #00F0FF;">travel</span>
+      <span class="tag" style="background: #FF2D8718; color: #FF2D87;">interactive</span>
+      <span class="tag" style="background: #B8FF0018; color: #B8FF00;">family</span>
+    </div>
+  </a>
+
+  <!-- Future experiments go here -->
+  <div class="empty-state">
+    More experiments coming. Stay close.
+  </div>
+
+  <div class="footer">
+    <div class="footer-text">
+      <a href="https://github.com/cranberryjin">@cranberryjin</a>
+    </div>
+  </div>
+</div>
+</body>
+</html>
