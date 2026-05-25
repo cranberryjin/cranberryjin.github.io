@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Great American West — Summer 2026</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0A0618; }
+  #root { min-height: 100vh; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState } = React;
+const V=[
+  {icon:"🧓",label:"Uncle says you should know"},
+  {icon:"🧑‍🍳",label:"The young native adds"},
+  {icon:"🧔",label:"The local who reads the paper"},
+  {icon:"✨",label:"The lady who remembers magic"},
+  {icon:"🧒",label:"What your kid will tell people at 26"},
+];
+const S=[
+  { id:1,day:"Day 1",date:"Fri, Jun 5",label:"San Francisco",emoji:"🌉",type:"city",accent:"#FF2D87",
+    stay:"Santa Rosa Airbnb",note:"Arrive 8:30pm · Pick up rental at SFO 9pm",drive:null,kids:null,activities:null,
+    tip:"Grab groceries on the way to Santa Rosa — snacks for the Yosemite drive.",
+    v:[
+      [{k:"Karl the Fog",d:"The fog has a name, an Instagram, and a personality. SF's summer marine layer rolls in like clockwork."},{k:"Sourdough since 1849",d:"Boudin's starter culture is 175+ years alive. A Gold Rush survivor you can eat."},{k:"Mission Burrito",d:"SF invented the rice-inside, foil-wrapped burrito. Don't call it a wrap."},{k:"Cioppino",d:"Italian fishermen's seafood stew — born at Fisherman's Wharf, not imported."},{k:"Irish Coffee @ Buena Vista",d:"First in America, 1952. They still make 2,000 a day."},{k:"Cable cars",d:"The only moving National Historic Landmark in the US."}],
+      [{k:"La Taqueria 'dorado'",d:"Ask for your burrito griddled on the plancha. Not on menu. Cash only. James Beard winner."},{k:"Tartine Bakery",d:"The line IS the experience. Morning bun: orange zest + cinnamon."},{k:"Bi-Rite + Dolores Park",d:"Salted caramel ice cream eaten on the Dolores hill. The SF ritual."},{k:"Ferry Building Sat market",d:"Farm-to-table HQ of California. Saturday morning. Arrive hungry."},{k:"Balmy Alley murals",d:"An entire Mission alley of political murals since the 80s. Outdoor gallery, free."},{k:"Flour + Water",d:"90+ handmade pasta shapes. Reservation harder than Stanford. Try Penny Roma next door."}],
+      [{k:"$3,310 avg rent",d:"89% above national average. Rents up 5.4% YoY. AI boom driving workers back to the city."},{k:"AI revival",d:"Vacancy down to 4.5%, lowest in a decade. AI startups reversing the COVID exodus."},{k:"82,000 homes by 2031",d:"State mandate. SF is behind. Office-to-housing conversions downtown are the new play."},{k:"67-story tower at 10 S. Van Ness",d:"Could be city's largest housing project. 1,019 units. Crescent Heights. If it actually gets built."},{k:"Don't drive downtown",d:"BART + Muni. Parking is $40+/day. The rental car is for Yosemite, not for Market Street."},{k:"Tenderloin reality check",d:"Downtown has cleaned up since 2023 but the Tenderloin is still gritty. Eyes open, not afraid."}],
+      [{k:"Fog pouring under the Golden Gate",d:"The first time you watch Karl roll under the bridge from Battery Spencer, you stop breathing for a second."},{k:"Bioluminescent waves",d:"Rare nights in spring, Ocean Beach glows electric blue. Plankton lighting up the surf."},{k:"Golden Gate at sunrise, alone",d:"Cross the bridge at 6am. Just you and the joggers. The city doesn't exist yet."},{k:"Secret Victorian gardens",d:"Behind the painted facades, hidden gardens with winding paths. Some open for tours. Ask around."}],
+      [{k:"Bread shaped like an animal",d:"At the airport. Or was it a turtle? I ate the whole ear."},{k:"The fog ATE the bridge",d:"It was SO red and then the fog just ate it. Gone. I could still hear the cars."},{k:"Ice cream on the big hill",d:"Dad let me have ice cream and I rolled down the grass and my shirt turned green."}],
+    ]},
+  { id:2,day:"Days 2–3",date:"Jun 6–7",label:"SF / Wine Country",emoji:"🦀",type:"city",accent:"#FF8FD4",
+    stay:"Santa Rosa Airbnb",note:"Two full days to explore before heading east",drive:null,kids:null,activities:null,
+    tip:"Check Tioga Road status these mornings — it determines your Yosemite route.",
+    v:[
+      [{k:"Charles Schulz lived here",d:"Peanuts creator, Santa Rosa 1969–2000. The town is his."},{k:"Snoopy's Home Ice",d:"Rink Schulz built in 1969. His Warm Puppy Café table: still 'reserved'."},{k:"Schulz Museum",d:"7,000 original strips. Your 6yo will love the drawing room."},{k:"Peanuts statues hunt",d:"100+ life-size character statues across Santa Rosa. Walking treasure hunt."},{k:"Bodega Bay",d:"Hitchcock filmed 'The Birds' here 1963. Schoolhouse still stands."}],
+      [{k:"Russian River Brewing",d:"Pliny the Elder. One of the most legendary IPAs ever brewed. Santa Rosa HQ."},{k:"Healdsburg square",d:"Tiny town, eats above its weight class. Tasting rooms, feel fancy without trying."},{k:"Single Thread",d:"3 Michelin stars in a small town. They grow everything on-site."},{k:"Gravenstein apples",d:"Sebastopol heritage fruit. Pies, cider, everything."}],
+      [{k:"Wildfire rebuilding",d:"Since 2017 fires, whole neighborhoods rebuilt. Tubbs Fire destroyed 5,600+ structures. Recovery is ongoing and visible."},{k:"Sonoma housing crunch",d:"Not just SF — median home in Sonoma County ~$750K. Service workers commute an hour+."},{k:"Sonoma County Airport",d:"Tiny, easy, named after Schulz. If you ever fly in, it's the chillest airport in California."}],
+      [{k:"Hot air balloon at sunrise",d:"Floating over Sonoma vineyards at dawn. Morning mist burning off. The whole valley golden."},{k:"Fog lifting off grapevines",d:"Waking up at the Airbnb and watching the vineyard rows appear one by one as the fog clears."},{k:"Bodega Head at sunset",d:"Stand at the headlands, watch the Pacific swallow the sun. Whales pass in spring."}],
+      [{k:"Snoopy statues EVERYWHERE",d:"I found more than Mum. I counted twelve. She only got nine."},{k:"We went ice skating",d:"Where the Peanuts man used to sit! And I had hot chocolate called Peppermint Patty."},{k:"I drew Charlie Brown",d:"At the museum drawing room. They put it on the wall. My actual drawing. On the wall."}],
+    ]},
+  { id:3,day:"Days 4–7",date:"Jun 8–11",label:"Yosemite",emoji:"🏔️",type:"park",accent:"#00F0FF",
+    arch:{title:"The Dreamer",desc:"The park that invented conservation. Ansel Adams picked up a camera at 14. John Muir wrote letters that moved a president. Yosemite is the American impulse to see something beautiful and say 'nobody touch this.'"},
+    stay:"El Portal · Yosemite View Lodge",note:"4 nights at the gateway — valley each morning",
+    drive:"SF → Yosemite: ~3.5h (Tioga) or ~4h (CA-140)",
+    kids:["Mirror Lake loop — flat, 2mi, great for 6yo","Lower Yosemite Fall — short, massive spray","Valley View shuttle — sit and gawk","Swinging Bridge — wade in the Merced","Junior Ranger at Visitor Center"],
+    activities:["Tunnel View at golden hour","Glacier Point (if open)","Mariposa Grove sequoias","Cook's Meadow at sunset"],
+    tip:"Free cancellation before Jun 12 4pm. Tioga closed? Valley still fine via CA-140.",
+    v:[
+      [{k:"Ansel Adams",d:"First camera here at 14, 1916. Changed photography forever."},{k:"John Muir",d:"'Father of the National Parks.' His writing convinced Teddy Roosevelt."},{k:"Tutokanula / El Capitan",d:"Miwok 'Inchworm Rock.' A tiny inchworm rescued two bear cubs when every animal failed."},{k:"Free Solo (Honnold)",d:"Climbed El Cap's 900m face, no ropes, 2017. Oscar-winning documentary."},{k:"Firefall",d:"Feb sunset turns Horsetail Fall to lava. Old version: burning coals off Glacier Point."}],
+      [{k:"Whoa Nellie Deli",d:"Famous fish tacos at a Tioga gas station. Legit one of the best eastern Sierra meals."},{k:"Camp 4",d:"Birthplace of climbing counterculture. 60s–70s dirtbag village. Now a National Historic Site."},{k:"Ahwahnee dining room",d:"Walk in just to see the ceiling. Get a drink without dinner reservation."},{k:"Iron Door Saloon",d:"Groveland, 1852. Oldest saloon in California. One beer, one story."}],
+      [{k:"Reservation system",d:"Summer entry to Yosemite Valley requires advance reservation. Check recreation.gov. Don't show up and hope."},{k:"4+ million visitors/year",d:"Infrastructure strained. Parking full by 10am on summer weekends. Enter early or take the shuttle."},{k:"Tioga Road = weather gamble",d:"Opens May–June depending on snowpack. No fixed date. Check NPS daily."},{k:"Worker housing crisis",d:"Park employees can't afford to live near the park. El Portal and Mariposa are stretched."}],
+      [{k:"Bear family at dusk",d:"A mother and two cubs crossing Cook's Meadow at golden hour. Everyone's camera freezes. You just watch."},{k:"Moonbow at Yosemite Falls",d:"Full moon + mist = a lunar rainbow in the falls. Real. Happens a few nights per year."},{k:"Silence in Mariposa Grove",d:"Stand among 2,000-year-old trees. No cars. No planes. The quiet has weight."},{k:"Stars in Mirror Lake",d:"The valley walls reflected in still water. The Milky Way doubled. A photograph you never take."}],
+      [{k:"The waterfall SPRAYED me",d:"I screamed so loud. My whole shirt was wet. Best thing ever."},{k:"We saw a real bear",d:"A REAL BEAR. It didn't even care about us. It just kept walking."},{k:"Trees so big",d:"I lay down and looked up and I STILL couldn't see where it ended."},{k:"Junior Ranger badge",d:"The ranger shook my hand. Like a real handshake. I still have the badge."}],
+    ]},
+  { id:4,day:"Day 8",date:"Jun 12",label:"The Road Day",emoji:"🚗",type:"road",accent:"#FFD600",
+    stay:"Plan A: Mammoth (SureStay) · Plan B: Bakersfield",
+    note:"Transition — Yosemite east via Tioga or south via 99",
+    drive:"El Portal → Mammoth: ~2.5h (Tioga) · → Bakersfield: ~4.5h (99)",
+    kids:["Horseshoe Lake CO₂ tree kill zone","Hot Creek — steaming water!","License plate spotting game"],
+    activities:["Mono Lake tufa towers","Tioga Pass — Olmsted Point, Tenaya Lake"],
+    tip:"Tioga open = Mammoth (scenic). Closed = Bakersfield (sets up Death Valley from west).",
+    v:[
+      [{k:"Mono Lake tufa towers",d:"Alien limestone pillars. Brine shrimp sustain 2 million migratory birds."},{k:"Tioga Pass @ 9,945ft",d:"Highest highway pass in California. 'Did the snowplow win?'"},{k:"Long Valley Caldera",d:"You're in a supervolcano. Last eruption: 760,000 years ago."},{k:"Obsidian Dome",d:"Hill of volcanic glass. Paiute traded obsidian tools for thousands of years."}],
+      [{k:"Schat's Bakkery, Bishop",d:"Sheepherder bread since 1938. If on Bakersfield route, detour through Bishop for this."},{k:"Mammoth Brewing",d:"Altitude beer. The IPA hits different at 8,000ft."},{k:"June Lake loop",d:"45 extra minutes: a tiny scenic loop with a lake that looks photoshopped."}],
+      [{k:"Hwy 395 roadwork",d:"The 395 between Mammoth and Bishop gets seasonal construction delays. Check Caltrans."},{k:"Mono Lake water rights fight",d:"LA diverted the feeder streams in 1941. Court ordered restoration in 1994. The lake is still recovering."},{k:"Eastern Sierra housing",d:"Mammoth Lakes median home ~$900K. Resort town economics. Workers live in their cars in summer."}],
+      [{k:"Tenaya Lake turquoise",d:"You come around a Tioga bend and the lake is turquoise. At 8,150ft. You pull over and just sit."},{k:"Mono Lake at sunset",d:"Tufa towers backlit, alkaline water turning pink. Looks like another planet."},{k:"The silence at Olmsted Point",d:"Half Dome from behind. No crowds. Chipmunks. That's it."}],
+      [{k:"The lake was SO blue",d:"Dad said I could throw one rock in. Just one. I picked the best one."},{k:"Mum said it was a volcano",d:"I didn't believe her but she showed me the steam from the ground."}],
+    ]},
+  { id:5,day:"Day 9",date:"Jun 13",label:"Death Valley",emoji:"🌵",type:"park",accent:"#FF6B35",
+    arch:{title:"The Survivor",desc:"The harshest place on the continent, and people went there on purpose. For borax. For gold. For a con man's castle. Death Valley is the American stubbornness that says 'I know it's impossible. I'm going anyway.'"},
+    stay:"Furnace Creek · The Ranch",note:"Hottest place on Earth — respect the heat",
+    drive:"Mammoth → Death Valley: ~4h · Bakersfield → Death Valley: ~4h",
+    kids:["Badwater Basin salt flats (-86m!)","Mesquite sand dunes — early AM ONLY","Artist's Drive — rainbow canyon from car","Devil's Golf Course"],
+    activities:["Zabriskie Point sunrise (5am)","Dante's View panorama","Star gazing — Gold Tier Dark Sky"],
+    tip:"⚠️ June 50°C+. Outdoors before 10am or after 5pm only. 4L water per person. Pool midday.",warning:true,
+    v:[
+      [{k:"Sailing Stones",d:"300kg rocks slide across Racetrack Playa alone. Solved 2014: thin ice + gentle wind."},{k:"134°F / 56.7°C",d:"Highest reliable air temp recorded on Earth. July 10, 1913. Here."},{k:"Badwater -86m",d:"Lowest in North America. Sea-level sign on the cliff above."},{k:"Scotty's Castle",d:"Con man convinced a millionaire to build a Spanish mansion. The millionaire knew and didn't care."},{k:"Teakettle Junction",d:"Road sign covered in teakettles left by travelers. Just… happened."}],
+      [{k:"Date shakes",d:"Furnace Creek date palms are real. The shake is the only thing you'll crave at 50°C."},{k:"Ranch pool strategy",d:"Pool 11am–4pm. No guilt. The desert demands it."},{k:"Stovepipe Wells saloon",d:"Cold beer in the middle of absolute nowhere. The contrast IS the point."},{k:"Milky Way night mode",d:"Gold Tier Dark Sky. No light for 100+ miles. Your phone's night mode will surprise you."}],
+      [{k:"Scotty's Castle still closed",d:"2015 flash floods + 2022 flooding destroyed roads. Repairs ongoing, limited tours on Sundays only."},{k:"Cell service: zero",d:"Basically none in the park. Download maps offline. Tell someone your route."},{k:"Flash flood risk",d:"Even in summer. Monsoon moisture from the south can trigger sudden floods in canyons."},{k:"Climate records accelerating",d:"2020s have seen multiple near-record temps. Summer visits getting more extreme each decade."}],
+      [{k:"Badwater Basin at dawn, alone",d:"Silence so complete you hear your own blood. The salt flats are still pink. Just you and the planet."},{k:"Milky Way casting shadows",d:"Not a metaphor. At Mesquite dunes, the galaxy is bright enough to cast faint shadows on the sand."},{k:"Zabriskie gold",d:"Sunrise paints the badlands gold, then copper, then white. Five minutes of color that don't repeat."},{k:"Dunes at first light",d:"Animal tracks and wind ripples. No footprints yet. You're the first one today."}],
+      [{k:"I licked the salt",d:"The ground was white and crunchy and I licked it. ACTUALLY salt."},{k:"Best pool ever",d:"Because it was a million degrees outside. The pool was the only good idea."},{k:"The Milky Way is REAL",d:"I thought it was just chocolate. But it's in the sky. And it's HUGE."}],
+    ]},
+  { id:6,day:"Days 10–11",date:"Jun 14–15",label:"Zion",emoji:"🦎",type:"park",accent:"#B8FF00",
+    arch:{title:"The Believer",desc:"Mormon pioneers walked into this canyon and named it the Promised Land. The Narrows feels like a baptism. Zion is American faith. The conviction that there's something worth walking toward, even when you can't see the end."},
+    stay:"Springdale · Driftwood Lodge",note:"Red rock canyon country — the dramatic one",
+    drive:"Death Valley → Zion: ~4.5h via Las Vegas",
+    kids:["Riverside Walk — flat, 2mi, ends at Narrows","Dip toes into The Narrows","Pa'rus Trail — bikes, flat, river","Weeping Rock — dripping overhang","Junior Ranger at Visitor Center"],
+    activities:["Canyon Overlook Trail — 1mi","Zion shuttle through canyon","Watchman Trail at sunset","Springdale walk — ice cream, galleries"],
+    tip:"Shuttle required Apr–Nov. Catch it early — lines by 9am.",
+    v:[
+      [{k:"The Narrows",d:"Hike inside the Virgin River, 300m slot canyon walls. One of the most unique hikes on Earth."},{k:"Angels Landing chains",d:"Knife-edge ridge, chain handrails, 450m drops. Permit since 2022."},{k:"Weeping Rock",d:"Rain from 1,200 years ago finally emerges through sandstone."},{k:"'Zion' = Promised Land",d:"Mormon pioneers walked in and said 'this is it.'"},{k:"Navajo Sandstone",d:"190-million-year-old sand dunes frozen into stone. Ancient Sahara."}],
+      [{k:"Deep Creek Coffee",d:"The local's joint. Iced latte + BLT before hiking. No pretense."},{k:"Oscar's verde burrito",d:"Massive portions. The post-hike reward everyone agrees on."},{k:"Bit & Spur",d:"Southwestern food, Virgin River patio, earned margarita."},{k:"Bumbleberry pie",d:"50+ year tradition. A berry blend that exists nowhere else."},{k:"Zion Brew Pub",d:"Southern Utah's first microbrewery. Juicy IPA with red rock overhead."}],
+      [{k:"Angels Landing permit lottery",d:"Since 2022. Seasonal + day-before lotteries. Apply early on recreation.gov."},{k:"Springdale: 500 people vs millions",d:"Tiny town absorbing 4.5M annual visitors. Infrastructure at breaking point."},{k:"Utah public lands debate",d:"Ongoing state vs federal tension over who controls these lands. Politically charged."},{k:"Shuttle bottleneck",d:"The mandatory system works but peaks are painful. First bus is your friend."}],
+      [{k:"First step into The Narrows",d:"Cold water on your ankles, walls 300m above, the sky a blue slit. Your body recalibrates."},{k:"Condor shadow",d:"A California Condor overhead. Its shadow covers the whole trail. You look up and the wings don't end."},{k:"Watchman at sunset",d:"Orange to purple to black. The canyon color change happens so slowly you don't notice until it's done."},{k:"Deer in the Virgin River at dawn",d:"Standing in the shallow water, perfectly still. You and the deer just look at each other."}],
+      [{k:"I walked in a RIVER inside a CANYON",d:"The water was cold and the walls were taller than anything and the sky was just a tiny line."},{k:"The deer looked at me",d:"Standing in the river. We both stood still. It was like a secret."},{k:"The pie had a funny name",d:"Bumbleberry. I ate the whole slice and asked for another one."}],
+    ]},
+  { id:7,day:"Days 12–13",date:"Jun 16–17",label:"Grand Canyon",emoji:"🦅",type:"park",accent:"#A855F7",
+    arch:{title:"The Elder",desc:"1.8 billion years old at the bottom. The Colorado River doesn't care about your schedule. Every other park shows you something. The Grand Canyon shows you nothing except scale, time, and silence. The American encounter with something bigger than ambition."},
+    stay:"Grand Canyon Village · Bright Angel Lodge",note:"South Rim. Right on the rim.",
+    drive:"Zion → South Rim: ~4.5h via US-89",
+    kids:["Bright Angel Trail to tunnel #1","Trail of Time geology walk","Rim Trail (paved)","Yavapai Museum","Condor spotting","Junior Ranger"],
+    activities:["Mather Point sunrise","Hermit Road (Hopi Point sunset)","Desert View Watchtower","Shoshone Point — secret picnic"],
+    tip:"Bright Angel Lodge is INSIDE the park on the rim. Walk to the edge.",
+    v:[
+      [{k:"Vishnu Schist",d:"Bottom rock: 1.8 billion years old. Nearly half the age of Earth."},{k:"Colorado River",d:"Carved a mile deep in 5–6 million years. Still going."},{k:"Mary Colter",d:"Architect who studied indigenous design. Her buildings look grown from the rock."},{k:"California Condor",d:"22 left in 1982. Reintroduced. 2.9m wingspan. Look for wing tags."},{k:"The Great Unconformity",d:"1.2-billion-year gap in the rock record. 'Missing' time geologists still argue about."}],
+      [{k:"El Tovar dining room",d:"Built 1905. Dark timber, white linen, canyon views. Breakfast reservation worth it."},{k:"Cameron Trading Post",d:"On the drive in. Navajo crafts, fry bread, a creaky bridge. The real thing."},{k:"Fred Harvey & Harvey Girls",d:"Women who 'civilized' the frontier railroad. Real history."},{k:"Bright Angel lemonade",d:"After any rim walk, the soda fountain lemonade hits different."},{k:"Shoshone Point",d:"Locals' sunset spot. Short trail. No shuttle needed. Most visitors don't know."}],
+      [{k:"Colorado River water crisis",d:"Lake Mead and Powell at historic lows. Seven states fighting over water rights."},{k:"Havasupai Falls permits",d:"The turquoise waterfalls below the rim. Permits sell out in minutes. Reserved for tribal members first."},{k:"South Rim vs North Rim",d:"North Rim closes Oct–May. South Rim open year-round. You're on the right one."},{k:"Park entrance: $35/vehicle",d:"Valid 7 days. Or get the $80 America the Beautiful pass — covers all national parks for a year."}],
+      [{k:"The first time you see it",d:"Your body physically stops. No photo prepared you. The scale breaks your sense of proportion."},{k:"Condor riding thermals",d:"At rim level. Eye to eye with a 2.9m wingspan. The bird doesn't care about you."},{k:"Storm between the walls",d:"Lightning inside the canyon. Rain on one side, sun on the other. A whole weather system below you."},{k:"Elk at sunrise at the lodge",d:"Walk out of Bright Angel Lodge at dawn. Elk grazing on the lawn. Canyon behind them. No alarm clock needed."}],
+      [{k:"My brain just stopped",d:"It was so big I couldn't understand it. I looked and looked but my brain just stopped."},{k:"Bird wider than our car",d:"A HUGE bird flew past. Wings wider than our whole car. Dad said it almost went extinct."},{k:"Junior Ranger badge #2",d:"I got ANOTHER badge. Grand Canyon. The ranger said it's one of the best."},{k:"Deer on the lawn",d:"RIGHT THERE at our hotel and everyone walked past like it was normal."}],
+    ]},
+  { id:8,day:"Day 14",date:"Jun 18",label:"Las Vegas",emoji:"🎰",type:"city",accent:"#FF2D87",
+    stay:"Paris Las Vegas",note:"One night of neon",
+    drive:"Grand Canyon → LV: ~4.5h via US-93",kids:null,activities:null,
+    tip:"Drop car at LAS by 5pm tomorrow. Today = your Vegas day.",
+    v:[
+      [{k:"The Strip isn't in Las Vegas",d:"It's in the town of Paradise, NV. Seriously."},{k:"Hoover Dam",d:"30 min south. Built in 5 years during Depression. Walk across it."},{k:"Neon Museum / Boneyard",d:"Where retired Vegas signs glow one last time."},{k:"Fremont Street",d:"Original Vegas. LED canopy = 5 blocks long."},{k:"Bellagio Fountains",d:"Free, every 15 min. The 6yo will demand three viewings."}],
+      [{k:"Lotus of Siam",d:"Thai food so good NYT flew a critic to Vegas just for it. Off-Strip. No flash."},{k:"Arts District / 18b",d:"The anti-Strip. Galleries, murals, coffee. Actual creative culture."},{k:"Omega Mart / Meow Wolf",d:"Immersive art as a grocery store. Not a casino. Your 6yo's brain will melt."},{k:"Esther's Kitchen",d:"Handmade pasta, Arts District. Makes you forget you're in Vegas."},{k:"Golden Steer",d:"Oldest steakhouse (1958). Rat Pack booth. No influencers."}],
+      [{k:"The Sphere ($2.3B)",d:"World's largest spherical structure. Programmable LED exterior. 20,000 seats. Changes the skyline."},{k:"F1 Grand Prix",d:"Street circuit since 2023. Vegas reinventing itself as a sports city, not just casinos."},{k:"Brightline West",d:"High-speed rail to LA, under construction. 200mph. Completion ~2028."},{k:"No state income tax",d:"Driving massive California migration. Henderson and Summerlin = where families live."},{k:"Lake Mead water crisis",d:"Supplies Vegas + 25 million people. Levels dropped 170+ feet since 2000. The bathtub ring is visible from space."},{k:"Median home ~$465K",d:"A fraction of SF or LA. Same sun. The math is why people move here."}],
+      [{k:"The Sphere at night from the highway",d:"Your brain doesn't compute the scale. A building-sized eyeball staring at you. The kid screams."},{k:"Bellagio + a 6-year-old",d:"'AGAIN! AGAIN!' Three viewings minimum. You stand there and you don't mind."},{k:"Fremont Street at midnight",d:"Old neon buzzing, street performers, LED sky. The honest, weird, original Vegas."},{k:"Leaving the Strip",d:"One block off the neon and it's desert. Just like that. City ends, emptiness begins."}],
+      [{k:"The EYEBALL building",d:"A BUILDING that is an EYEBALL. I couldn't stop looking at it."},{k:"AGAIN! AGAIN! AGAIN!",d:"The water went up to music and I made Dad watch it three times. Maybe four."},{k:"The whole city was awake",d:"Mum said bedtime but the WHOLE CITY was still awake. That's not fair."}],
+    ]},
+  { id:9,day:"Day 15",date:"Fri, Jun 19",label:"Fly Home",emoji:"✈️",type:"travel",accent:"#818CF8",
+    stay:null,note:"LAS 1:34pm → SFO 3:16pm (UA1799) · SFO 10pm → SIN",drive:null,kids:null,activities:null,
+    tip:"Car drop at LAS by 5pm. Slow morning at Paris.",v:[[],[],[],[],[{k:"I slept the whole plane",d:"When I woke up we were in Singapore and I still had my Junior Ranger badge on."}]]},
+];
+
+function GlowDot({color,size=5,style={}}){return<div style={{width:size,height:size,borderRadius:"50%",background:color,boxShadow:`0 0 ${size*2}px ${color},0 0 ${size*4}px ${color}50`,flexShrink:0,...style}}/>}
+
+function Lore({items,accent,label,icon,exp,setExp}){
+  if(!items||!items.length)return null;
+  return(<div style={{background:"rgba(255,255,255,0.03)",borderRadius:14,padding:"14px 16px",border:"1px solid rgba(255,255,255,0.06)"}}>
+    <div style={{fontSize:9,fontWeight:700,color:accent,letterSpacing:"1.5px",fontFamily:"'Space Mono',monospace",marginBottom:10,textTransform:"uppercase",opacity:.8}}>{icon} {label}</div>
+    <div style={{display:"flex",flexWrap:"wrap",gap:6,alignItems:"flex-start"}}>
+      {items.map((l,i)=>(<div key={i} style={{display:"flex",flexDirection:"column"}}>
+        <button onClick={e=>{e.stopPropagation();setExp(exp===i?null:i)}} style={{
+          background:exp===i?`${accent}18`:`${accent}0A`,border:`1px solid ${exp===i?accent+"40":accent+"20"}`,
+          borderRadius:exp===i?"10px 10px 0 0":10,padding:"5px 12px",cursor:"pointer",transition:"all .2s",
+          fontSize:12,fontWeight:600,fontFamily:"'Outfit',sans-serif",color:exp===i?accent:"rgba(255,255,255,.6)",
+          whiteSpace:"nowrap",lineHeight:1.4}}>{l.k}</button>
+        {exp===i&&<div style={{background:`${accent}0A`,borderRadius:"0 0 10px 10px",border:`1px solid ${accent}20`,
+          borderTop:"none",padding:"8px 12px",fontSize:12,lineHeight:1.5,color:"rgba(255,255,255,.55)",
+          fontFamily:"'Outfit',sans-serif",maxWidth:320}}>{l.d}</div>}
+      </div>))}
+    </div></div>);
+}
+
+function Card({stop,isOpen,onToggle,index}){
+  const[e0,s0]=useState(null);const[e1,s1]=useState(null);const[e2,s2]=useState(null);const[e3,s3]=useState(null);const[e4,s4]=useState(null);
+  const exps=[[e0,s0],[e1,s1],[e2,s2],[e3,s3],[e4,s4]];
+  return(<div style={{display:"flex",flexDirection:"column",alignItems:"center",width:"100%",marginBottom:4,position:"relative"}}>
+    {index>0&&<div style={{width:2,height:36,background:`linear-gradient(to bottom,${S[index-1].accent}60,${stop.accent}60)`,boxShadow:`0 0 8px ${stop.accent}30`,position:"relative"}}><GlowDot color={stop.accent} size={5} style={{position:"absolute",bottom:-2,left:-1.5}}/></div>}
+    {stop.drive&&<div style={{background:"rgba(255,255,255,.06)",border:"1px solid rgba(255,255,255,.1)",borderRadius:20,padding:"5px 14px",fontSize:10.5,fontFamily:"'Space Mono',monospace",color:"rgba(255,255,255,.5)",marginBottom:8,textAlign:"center",maxWidth:300}}>{stop.drive}</div>}
+    <div onClick={onToggle} style={{width:"100%",maxWidth:540,background:isOpen?`linear-gradient(135deg,${stop.accent}12 0%,${stop.accent}06 50%,rgba(15,10,40,.8) 100%)`:"rgba(255,255,255,.04)",borderRadius:20,border:isOpen?`1.5px solid ${stop.accent}50`:"1.5px solid rgba(255,255,255,.07)",cursor:"pointer",overflow:"hidden",transition:"all .35s cubic-bezier(.4,0,.2,1)",boxShadow:isOpen?`0 0 30px ${stop.accent}15,0 8px 32px rgba(0,0,0,.3)`:"0 2px 8px rgba(0,0,0,.2)"}}>
+      <div style={{padding:"16px 20px",display:"flex",alignItems:"center",gap:14}}>
+        <div style={{width:52,height:52,borderRadius:14,background:`linear-gradient(135deg,${stop.accent}20,${stop.accent}08)`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:26,flexShrink:0,border:`1.5px solid ${stop.accent}30`,boxShadow:`0 0 20px ${stop.accent}10`}}>{stop.emoji}</div>
+        <div style={{flex:1,minWidth:0}}>
+          <div style={{display:"flex",alignItems:"center",gap:8,flexWrap:"wrap"}}>
+            <span style={{fontFamily:"'Outfit'",fontSize:20,fontWeight:700,color:"white"}}>{stop.label}</span>
+            {stop.warning&&<span style={{fontSize:9,background:"#FF6B35",color:"white",padding:"2px 8px",borderRadius:10,fontWeight:800,letterSpacing:"1px",fontFamily:"'Space Mono',monospace"}}>HOT</span>}
+          </div>
+          <div style={{fontFamily:"'Space Mono',monospace",fontSize:11,color:stop.accent,fontWeight:700,marginTop:2,opacity:.9}}>{stop.day} · {stop.date}</div>
+          <div style={{fontFamily:"'Outfit'",fontSize:13,color:"rgba(255,255,255,.5)",marginTop:3,lineHeight:1.4}}>{stop.note}</div>
+        </div>
+        <div style={{fontSize:16,color:stop.accent,transition:"transform .3s",transform:isOpen?"rotate(180deg)":"rotate(0deg)",opacity:.7}}>▾</div>
+      </div>
+      <div style={{maxHeight:isOpen?3000:0,opacity:isOpen?1:0,overflow:"hidden",transition:"all .4s cubic-bezier(.4,0,.2,1)"}}>
+        <div style={{padding:"0 20px 20px",display:"flex",flexDirection:"column",gap:12}}>
+          {stop.arch&&<div style={{background:`linear-gradient(135deg,${stop.accent}15,${stop.accent}05)`,borderRadius:14,padding:"16px 18px",border:`1.5px solid ${stop.accent}25`,position:"relative",overflow:"hidden"}}><div style={{position:"absolute",top:-20,right:-20,fontSize:80,opacity:0.06,fontFamily:"'Outfit'"}}>{stop.emoji}</div><div style={{fontSize:9,fontWeight:700,color:stop.accent,letterSpacing:"2px",fontFamily:"'Space Mono',monospace",textTransform:"uppercase",opacity:.7,marginBottom:6}}>🏛️ American spirit</div><div style={{fontSize:18,fontWeight:800,color:"white",fontFamily:"'Outfit'",marginBottom:6}}>{stop.arch.title}</div><div style={{fontSize:13,color:"rgba(255,255,255,.6)",lineHeight:1.6,fontFamily:"'Outfit'",fontWeight:400,fontStyle:"italic"}}>{stop.arch.desc}</div></div>}
+          {V.map((voice,vi)=><Lore key={vi} items={stop.v[vi]} accent={stop.accent} label={voice.label} icon={voice.icon} exp={exps[vi][0]} setExp={exps[vi][1]}/>)}
+          {stop.stay&&<div style={{background:"rgba(255,255,255,.04)",borderRadius:14,padding:"12px 16px",display:"flex",alignItems:"center",gap:10,border:"1px solid rgba(255,255,255,.06)"}}><span style={{fontSize:18}}>🛏️</span><div><div style={{fontSize:9,fontWeight:700,color:"rgba(255,255,255,.3)",letterSpacing:"1.5px",fontFamily:"'Space Mono',monospace",textTransform:"uppercase"}}>Staying at</div><div style={{fontSize:14,color:"rgba(255,255,255,.85)",fontWeight:600,fontFamily:"'Outfit'",marginTop:2}}>{stop.stay}</div></div></div>}
+          {stop.kids&&<div style={{background:"rgba(255,255,255,.04)",borderRadius:14,padding:"14px 16px",border:"1px solid rgba(255,255,255,.06)"}}><div style={{fontSize:9,fontWeight:700,color:stop.accent,letterSpacing:"1.5px",fontFamily:"'Space Mono',monospace",marginBottom:10,textTransform:"uppercase",opacity:.8}}>👦 Kid-friendly picks</div><div style={{display:"flex",flexDirection:"column",gap:8}}>{stop.kids.map((k,i)=><div key={i} style={{display:"flex",alignItems:"flex-start",gap:10}}><span style={{width:20,height:20,borderRadius:6,background:`${stop.accent}18`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,color:stop.accent,fontWeight:800,flexShrink:0,fontFamily:"'Space Mono',monospace",border:`1px solid ${stop.accent}25`}}>{i+1}</span><span style={{fontSize:13,color:"rgba(255,255,255,.7)",lineHeight:1.5,fontFamily:"'Outfit'"}}>{k}</span></div>)}</div></div>}
+          {stop.activities&&<div style={{background:"rgba(255,255,255,.04)",borderRadius:14,padding:"14px 16px",border:"1px solid rgba(255,255,255,.06)"}}><div style={{fontSize:9,fontWeight:700,color:stop.accent,letterSpacing:"1.5px",fontFamily:"'Space Mono',monospace",marginBottom:10,textTransform:"uppercase",opacity:.8}}>🗺️ Don't-miss</div><div style={{display:"flex",flexDirection:"column",gap:8}}>{stop.activities.map((a,i)=><div key={i} style={{display:"flex",alignItems:"flex-start",gap:10}}><GlowDot color={stop.accent} size={5} style={{marginTop:7}}/><span style={{fontSize:13,color:"rgba(255,255,255,.7)",lineHeight:1.5,fontFamily:"'Outfit'"}}>{a}</span></div>)}</div></div>}
+          {!stop.kids&&!stop.activities&&stop.type==="city"&&<div style={{background:"rgba(255,255,255,.02)",borderRadius:14,padding:"24px 16px",textAlign:"center",border:`1.5px dashed ${stop.accent}25`}}><div style={{fontSize:24,marginBottom:6}}>✨</div><div style={{fontSize:13,color:"rgba(255,255,255,.3)",fontStyle:"italic",fontFamily:"'Outfit'"}}>Your blank canvas</div></div>}
+          {stop.tip&&<div style={{background:stop.warning?"rgba(255,107,53,.08)":"rgba(255,255,255,.03)",borderRadius:12,padding:"10px 14px",display:"flex",gap:8,alignItems:"flex-start",border:stop.warning?"1px solid rgba(255,107,53,.15)":"1px solid rgba(255,255,255,.04)"}}><span style={{fontSize:13,flexShrink:0}}>{stop.warning?"🔥":"💡"}</span><span style={{fontSize:12,color:stop.warning?"#FFB088":"rgba(255,255,255,.45)",lineHeight:1.55,fontFamily:"'Outfit'"}}>{stop.tip}</span></div>}
+        </div></div>
+    </div></div>);
+}
+
+function App(){
+  const[openId,setOpenId]=useState(null);
+  const[stars]=useState(()=>Array.from({length:80},(_,i)=>({id:i,left:`${Math.random()*100}%`,top:`${Math.random()*5500}px`,size:1+Math.random()*2,delay:Math.random()*5,dur:3+Math.random()*5})));
+  const total=S.reduce((n,s)=>n+s.v.reduce((m,a)=>m+a.length,0),0);
+  return(<div style={{minHeight:"100vh",background:"linear-gradient(180deg,#0A0618 0%,#12082A 30%,#0D0B2E 60%,#08061A 100%)",fontFamily:"'Outfit',sans-serif",position:"relative",overflow:"hidden"}}>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+    <style>{`@keyframes tw{0%,100%{opacity:.12}50%{opacity:.7}}@keyframes fl{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}@keyframes pu{0%,100%{opacity:.3}50%{opacity:1}}@keyframes su{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}@keyframes gs{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}`}</style>
+    {stars.map(s=><div key={s.id} style={{position:"absolute",left:s.left,top:s.top,width:s.size,height:s.size,borderRadius:"50%",background:"white",animation:`tw ${s.dur}s ease-in-out ${s.delay}s infinite`,pointerEvents:"none"}}/>)}
+    {[[60,-100,"#FF2D87"],[500,null,"#00F0FF"],[1400,-100,"#B8FF00"],[2800,null,"#A855F7"],[3800,-80,"#FFD600"]].map(([t,l,c],i)=><div key={i} style={{position:"absolute",top:t,...(l!==null?{left:l}:{right:-120}),width:400,height:400,borderRadius:"50%",background:`radial-gradient(circle,${c}08 0%,transparent 70%)`,pointerEvents:"none"}}/>)}
+    <div style={{position:"relative",padding:"52px 24px 36px",textAlign:"center",zIndex:1,animation:"su .8s ease-out"}}>
+      <div style={{fontFamily:"'Space Mono',monospace",fontSize:10,letterSpacing:"4px",color:"#FF2D87",fontWeight:700,textTransform:"uppercase",marginBottom:16,opacity:.8}}>Summer 2026</div>
+      <h1 style={{fontFamily:"'Outfit'",fontSize:44,fontWeight:900,lineHeight:1.02,margin:"0 0 6px",letterSpacing:"-2px",background:"linear-gradient(135deg,#FFF 0%,#FF2D87 35%,#00F0FF 65%,#B8FF00 100%)",backgroundSize:"200% 200%",animation:"gs 8s ease infinite",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>The Great<br/>American West</h1>
+      <div style={{fontSize:14,color:"rgba(255,255,255,.35)",marginTop:12,fontWeight:300}}>A family road trip · California, Nevada, Utah & Arizona</div>
+      <div style={{display:"flex",justifyContent:"center",gap:20,marginTop:28,flexWrap:"wrap"}}>
+        {[{n:"15",l:"days",c:"#FF2D87"},{n:"4",l:"parks",c:"#00F0FF"},{n:"5",l:"voices",c:"#B8FF00"},{n:String(total),l:"things to know",c:"#FFD600"}].map((s,i)=><div key={i} style={{textAlign:"center"}}><div style={{fontSize:28,fontWeight:900,color:s.c,textShadow:`0 0 20px ${s.c}40`}}>{s.n}</div><div style={{fontSize:9,color:"rgba(255,255,255,.35)",letterSpacing:"1.5px",textTransform:"uppercase",fontFamily:"'Space Mono',monospace",fontWeight:700}}>{s.l}</div></div>)}
+      </div>
+      <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:5,marginTop:24,fontSize:11,flexWrap:"wrap",color:"rgba(255,255,255,.35)"}}>
+        {["SFO","SF","Yosemite","Death Valley","Zion","Grand Canyon","Vegas","SIN"].map((s,i,a)=><span key={i} style={{display:"flex",alignItems:"center",gap:5}}><span style={{color:i===0||i===a.length-1?"#FF2D87":"rgba(255,255,255,.35)",fontWeight:i===0||i===a.length-1?700:500}}>{s}</span>{i<a.length-1&&<span style={{color:"rgba(255,255,255,.15)",fontSize:10}}>→</span>}</span>)}
+      </div>
+    </div>
+    <div style={{textAlign:"center",fontSize:11,color:"rgba(255,255,255,.2)",marginBottom:24,fontFamily:"'Space Mono',monospace",animation:"pu 3s ease-in-out infinite"}}>↓ tap stops · tap keywords ↓</div>
+    <div style={{padding:"0 16px 60px",display:"flex",flexDirection:"column",alignItems:"center",position:"relative",zIndex:1}}>
+      {S.map((stop,i)=><Card key={stop.id} stop={stop} index={i} isOpen={openId===stop.id} onToggle={()=>setOpenId(openId===stop.id?null:stop.id)}/>)}
+    </div>
+    <div style={{textAlign:"center",padding:"24px 24px 48px",borderTop:"1px solid rgba(255,255,255,.05)",margin:"0 24px",position:"relative",zIndex:1}}>
+      <div style={{fontSize:28,marginBottom:10,animation:"fl 3s ease-in-out infinite"}}>🚐💨</div>
+      <div style={{fontSize:16,fontWeight:700,background:"linear-gradient(90deg,#FF2D87,#FFD600)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>See you on the road, family.</div>
+      <div style={{fontSize:10,color:"rgba(255,255,255,.15)",marginTop:8,fontFamily:"'Space Mono',monospace"}}>Built from USA_2026.numbers</div>
+    </div>
+  </div>);
+}
+
+ReactDOM.render(React.createElement(App), document.getElementById("root"));
+</script>
+</body>
+</html>
